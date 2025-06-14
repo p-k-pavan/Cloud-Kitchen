@@ -2,7 +2,8 @@ const express = require("express");
 const app = express();
 const dotenv = require("dotenv")
 const mongoose = require("mongoose")
-const adminRoute =require("./routes/admin.routes")
+const adminRoute = require("./routes/admin.routes")
+const menuRouter = require("./routes/menu.routes")
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
@@ -36,6 +37,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use("/api/admin",adminRoute);
+app.use("/api/Menu",menuRouter);
 
 app.get("/", (req, res) => {
   res.send("Cloud Kitchen Backend is running!");
