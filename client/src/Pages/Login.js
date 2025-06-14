@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {useDispatch} from 'react-redux'
+import { signInFailure, signInstart, signInSuccess } from '../redux/admin/adminSlice';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -12,12 +14,14 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
+      dispatch(signInstart());
       const response = await axios.post(
         'http://localhost:5000/api/admin/login', 
         { email, password },
@@ -28,6 +32,7 @@ const Login = () => {
           },
         }
       );
+
 
       if (response.data.admin) {
         toast.success('Login successful! Redirecting...', {
@@ -41,6 +46,7 @@ const Login = () => {
         });
         setTimeout(() => navigate('/'), 1000);
       }
+      dispatch(signInSuccess(response.data));
     } catch (err) {
       let errorMessage = 'An unexpected error occurred.';
       
@@ -53,6 +59,7 @@ const Login = () => {
       } else if (err.request) {
         errorMessage = 'Network error. Please check your connection.';
       }
+      dispatch(signInFailure(err.message));
 
       toast.error(errorMessage, {
         position: "top-center",
