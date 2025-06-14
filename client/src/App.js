@@ -1,13 +1,9 @@
-
-import './App.css';
-
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        Cloud Kitchen Menu
-      </header>
-    </div>
+    <h1 className="text-3xl font-bold underline text-red-700">
+      Hello world!
+    </h1>
+   
   );
 }
 
