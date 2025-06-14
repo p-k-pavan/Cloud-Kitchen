@@ -2,6 +2,9 @@ const express = require("express");
 const app = express();
 const dotenv = require("dotenv")
 const mongoose = require("mongoose")
+const adminRoute =require("./routes/admin.routes")
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 dotenv.config();
 
@@ -22,7 +25,17 @@ mongoose
     }
   });
 
+
+
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true
+}));
+app.use(cookieParser());
+
 app.use(express.json());
+
+app.use("/api/admin",adminRoute);
 
 app.get("/", (req, res) => {
   res.send("Cloud Kitchen Backend is running!");
@@ -30,4 +43,15 @@ app.get("/", (req, res) => {
 
 app.listen(5000, () => {
   console.log("Server is running on http://localhost:5000");
+});
+
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Something went wrong";
+
+  res.status(statusCode).json({
+    success: false,
+    statusCode,
+    message,
+  });
 });
