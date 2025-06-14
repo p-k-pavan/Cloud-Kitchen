@@ -1,9 +1,20 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Landing from "./Pages/Landing";
+import Navbar from "./components/Navbar";
+import About from "./Pages/About";
+import Dashboard from "./Pages/Dashboard";
+
 function App() {
   return (
-    <h1 className="text-3xl font-bold underline text-red-700">
-      Hello world!
-    </h1>
-   
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </BrowserRouter>
+
   );
 }
 
