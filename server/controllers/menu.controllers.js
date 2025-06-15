@@ -5,31 +5,37 @@ const addMenu = async (req, res, next) => {
   try {
     const { type, date, items } = req.body;
 
+    // Basic validation
     if (!type || !date || !items || !Array.isArray(items) || items.length === 0) {
       return next(errorHandler(400, "All fields are required and 'items' must be a non-empty array."));
     }
 
     // Validate each item
-    for (let i = 0; i < items.length; i++) {
-      const item = items[i];
-
+    const validatedItems = items.map((item, index) => {
       if (
-        !item.name || typeof item.name !== "string" ||
-        !item.quantity || typeof item.quantity !== "string" ||
-        !item.sufficientFor || typeof item.sufficientFor !== "string" ||
-        item.price === undefined || typeof item.price !== "number" ||
-        !item.image || typeof item.image !== "string"
+        !item?.name || typeof item.name !== "string" ||
+        !item?.quantity || typeof item.quantity !== "string" ||
+        !item?.sufficientFor || typeof item.sufficientFor !== "string" ||
+        item?.price === undefined || typeof item.price !== "number" ||
+        !item?.image || typeof item.image !== "string"
       ) {
-        return next(
-          errorHandler(
-            400,
-            `Item at index ${i+1} is invalid. Each item must include 'name', 'quantity', 'sufficientFor', 'price', and 'image'.`
-          )
-        );
+        throw new Error(`Item at index ${index} is invalid. Each item must include valid 'name', 'quantity', 'sufficientFor', 'price', and 'image'.`);
       }
-    }
 
-    const newMenu = new MenuItem({ type, date, items });
+      return {
+        name: item.name.trim(),
+        quantity: item.quantity.trim(),
+        sufficientFor: item.sufficientFor.trim(),
+        price: item.price,
+        image: item.image.trim()
+      };
+    });
+
+    const newMenu = new MenuItem({ 
+      type: type.trim(),
+      date: date.trim(),
+      items: validatedItems
+    });
 
     await newMenu.save();
 
@@ -39,9 +45,10 @@ const addMenu = async (req, res, next) => {
       data: newMenu
     });
   } catch (err) {
-    next(errorHandler(500, "Server Error: " + err.message));
+    next(errorHandler(400, err.message));
   }
 };
+
 
 const customMealOrder = {
   Breakfast: 1,

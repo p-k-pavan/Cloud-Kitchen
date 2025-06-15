@@ -5,6 +5,7 @@ import About from "./Pages/About";
 import Dashboard from "./Pages/Dashboard";
 import Login from "./Pages/Login";
 import AddMenu from "./Pages/AddMenu";
+import Footer from "./components/footer";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/about" element={<About />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
 
   );
