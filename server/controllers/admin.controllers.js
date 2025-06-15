@@ -20,13 +20,22 @@ const login = async (req, res, next) => {
       return next(errorHandler(401, "Unauthorized"));
     }
 
+    const isProduction = process.env.NODE_ENV === "production";
+    const age = 1000 * 60 * 60 * 24 * 1;
+
     const token = jwt.sign({ admin: true }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: age,
     });
 
     res
       .cookie("access_token", token, {
         httpOnly: true,
+        secure: isProduction,
+        sameSite: isProduction ? "none" : "lax",
+        path: "/",
+        // domain: isProduction ? '.vercel.app' : ".localhost",
+        partitioned: isProduction,
+        maxAge: age,
       })
       .status(200)
       .json({ message: "Login successful", admin: true });
