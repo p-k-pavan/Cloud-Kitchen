@@ -85,11 +85,13 @@ const Navbar = () => {
                 text="Home"
                 onClick={() => navigate('/')}
               />
+              {currentAdmin && (
               <NavButton
                 icon={<FaUtensils />}
                 text="Menu"
                 onClick={() => navigate('/menu')}
               />
+              )}
               {currentAdmin && (
                 <NavButton
                   icon={<FaTachometerAlt />}
@@ -135,11 +137,13 @@ const Navbar = () => {
               text="Home"
               onClick={() => navigate('/')}
             />
+             {currentAdmin && (
             <MobileNavButton
               icon={<FaUtensils />}
               text="Menu"
               onClick={() => navigate('/menu')}
             />
+             )}
             {currentAdmin && (
               <MobileNavButton
                 icon={<FaTachometerAlt />}
