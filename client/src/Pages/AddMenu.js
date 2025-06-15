@@ -103,7 +103,7 @@ const AddMenu = () => {
             uploadData.append('image', file);
 
             const response = await axios.post(
-                `${process.env.REACT_APP_API_BASE_URL}/menu/upload`,
+                `${process.env.REACT_APP_API_BASE_URL}/api/menu/upload`,
                 uploadData,
                 {
                     headers: {
@@ -164,7 +164,7 @@ const AddMenu = () => {
             };
 
             const response = await axios.post(
-                `${process.env.REACT_APP_API_BASE_URL}/menu/add`,
+                `${process.env.REACT_APP_API_BASE_URL}/api/menu/add`,
                 menuData,
                 {
                     headers: {

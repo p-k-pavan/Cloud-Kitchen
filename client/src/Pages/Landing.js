@@ -12,7 +12,7 @@ const Landing = () => {
   useEffect(() => {
     const fetchMenuData = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/menu`);
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/menu`);
         setMenuData(response.data.data);
         setLoading(false);
       } catch (err) {

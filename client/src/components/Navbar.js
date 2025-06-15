@@ -20,7 +20,7 @@ const Navbar = () => {
     try {
       dispatch(signoutUserStart());
 
-      const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/admin/logout`, {
+      const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/admin/logout`, {
         withCredentials: true,
       });
 

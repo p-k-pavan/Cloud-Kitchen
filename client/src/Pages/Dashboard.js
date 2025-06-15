@@ -27,8 +27,8 @@ const Dashboard = () => {
     const fetchMenuData = async () => {
       try {
         const url = filterDate
-          ? `${process.env.REACT_APP_API_BASE_URL}/menu/${filterDate}`
-          : `${process.env.REACT_APP_API_BASE_URL}/menu`;
+          ? `${process.env.REACT_APP_API_BASE_URL}/api/menu/${filterDate}`
+          : `${process.env.REACT_APP_API_BASE_URL}/api/menu`;
 
         const response = await axios.get(url);
         setMenuData(response.data.data);

@@ -23,7 +23,7 @@ const Login = () => {
     try {
       dispatch(signInstart());
       const response = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/admin/login`, 
+        `${process.env.REACT_APP_API_BASE_URL}/api/admin/login`, 
         { email, password },
         {
           withCredentials: true, 
