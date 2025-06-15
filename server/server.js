@@ -29,7 +29,7 @@ mongoose
 
 
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: "https://cloud-kitchen-delta.vercel.app",
   credentials: true
 }));
 app.use(cookieParser());
