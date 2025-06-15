@@ -89,7 +89,7 @@ const Navbar = () => {
               <NavButton
                 icon={<FaUtensils />}
                 text="Menu"
-                onClick={() => navigate('/menu')}
+                onClick={() => navigate('/addMenu')}
               />
               )}
               {currentAdmin && (
@@ -141,7 +141,7 @@ const Navbar = () => {
             <MobileNavButton
               icon={<FaUtensils />}
               text="Menu"
-              onClick={() => navigate('/menu')}
+              onClick={() => navigate('/addMenu')}
             />
              )}
             {currentAdmin && (

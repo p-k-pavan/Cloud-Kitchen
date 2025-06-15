@@ -4,20 +4,32 @@ import { FaCalendarAlt, FaClock } from 'react-icons/fa';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import MealSection from '../components/MealSection';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const [menuData, setMenuData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filterDate, setFilterDate] = useState('');
+  const { currentAdmin } = useSelector((state) => state.admin);
+
+  const navigate = useNavigate()
 
   useEffect(() => {
+    if (!currentAdmin) {
+      navigate('/login');
+    }
+  }, [currentAdmin, navigate]);
+
+  useEffect(() => {
+    if (!currentAdmin) return;
     const fetchMenuData = async () => {
       try {
-        const url = filterDate 
+        const url = filterDate
           ? `http://localhost:5000/api/menu/${filterDate}`
           : 'http://localhost:5000/api/menu';
-        
+
         const response = await axios.get(url);
         setMenuData(response.data.data);
         setLoading(false);
@@ -30,7 +42,7 @@ const Dashboard = () => {
     fetchMenuData();
   }, [filterDate]);
 
-  // Group menu data by date
+
   const groupByDate = (data) => {
     return data.reduce((acc, item) => {
       const date = item.date.split('T')[0];
@@ -44,13 +56,29 @@ const Dashboard = () => {
 
   const groupedMenuData = groupByDate(menuData);
 
+  if (!currentAdmin) {
+    return (
+      <div className="min-h-screen bg-[#f9f5f0] flex items-center justify-center">
+        <div className="text-center p-8 bg-white rounded-xl shadow-md max-w-md mx-auto">
+          <h2 className="text-2xl font-bold text-[#7f5539] mb-4">Access Denied</h2>
+          <p className="text-gray-600 mb-6">Please login as admin to access the dashboard</p>
+          <button
+            onClick={() => navigate('/login')}
+            className="bg-[#7f5539] text-white px-6 py-2 rounded-lg hover:bg-[#6a452e] transition"
+          >
+            Go to Login
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#f9f5f0] p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Simplified Date Filter */}
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-[#7f5539]">Menu Dashboard</h1>
-          
+
           <div className="w-64">
             <label className="block text-gray-700 text-sm font-medium mb-1">
               Filter by Date
@@ -67,7 +95,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Rest of your dashboard content */}
         {loading ? (
           <div className="text-center py-12">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#7f5539]"></div>
@@ -89,14 +116,14 @@ const Dashboard = () => {
               <div key={date} className="mb-12">
                 <h2 className="text-2xl font-bold text-[#7f5539] mb-6 flex items-center">
                   <FaCalendarAlt className="mr-2" />
-                  {new Date(date).toLocaleDateString('en-US', { 
-                    weekday: 'long', 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
+                  {new Date(date).toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
                   })}
                 </h2>
-                
+
                 {Object.entries(groupedByMealType).map(([mealType, items]) => (
                   <MealSection
                     key={`${date}-${mealType}`}
