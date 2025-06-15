@@ -27,8 +27,8 @@ const Dashboard = () => {
     const fetchMenuData = async () => {
       try {
         const url = filterDate
-          ? `http://localhost:5000/api/menu/${filterDate}`
-          : 'http://localhost:5000/api/menu';
+          ? `${process.env.REACT_APP_API_BASE_URL}/menu/${filterDate}`
+          : `${process.env.REACT_APP_API_BASE_URL}/menu`;
 
         const response = await axios.get(url);
         setMenuData(response.data.data);
@@ -40,7 +40,7 @@ const Dashboard = () => {
     };
 
     fetchMenuData();
-  }, [filterDate]);
+  }, [filterDate,currentAdmin]);
 
 
   const groupByDate = (data) => {

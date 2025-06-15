@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { FaUtensils, FaPlus, FaMinus, FaCalendarAlt, FaUpload } from 'react-icons/fa';
+import { FaUtensils, FaPlus, FaMinus, FaUpload } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -103,7 +103,7 @@ const AddMenu = () => {
             uploadData.append('image', file);
 
             const response = await axios.post(
-                'http://localhost:5000/api/menu/upload',
+                `${process.env.REACT_APP_API_BASE_URL}/menu/upload`,
                 uploadData,
                 {
                     headers: {
@@ -164,7 +164,7 @@ const AddMenu = () => {
             };
 
             const response = await axios.post(
-                'http://localhost:5000/api/menu/add',
+                `${process.env.REACT_APP_API_BASE_URL}/menu/add`,
                 menuData,
                 {
                     headers: {
