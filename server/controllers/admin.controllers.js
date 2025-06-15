@@ -4,7 +4,7 @@ const errorHandler = require("../utils/error");
 
 const login = async (req, res, next) => {
   const { email, password } = req.body;
- 
+
 
   try {
     if (email !== process.env.ADMIN_EMAIL) {
@@ -35,4 +35,12 @@ const login = async (req, res, next) => {
   }
 };
 
-module.exports = login;
+const signOut = (req, res, next) => {
+  try {
+    res.clearCookie("access_token").status(200).json({ message: "User signed out successfully" })
+  } catch (error) {
+    next(error)
+  }
+};
+
+module.exports = { login, signOut };
